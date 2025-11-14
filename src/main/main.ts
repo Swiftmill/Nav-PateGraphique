@@ -1,6 +1,10 @@
 import path from 'path';
-import electron from 'electron';
-import type { Session } from 'electron';
+import type {
+  BrowserWindow as ElectronBrowserWindow,
+  BrowserView as ElectronBrowserView,
+  Session
+} from 'electron';
+
 import Store from 'electron-store';
 import { autoUpdater } from 'electron-updater';
 import { loadConfig } from '../common/config';
@@ -16,6 +20,9 @@ import { createNewTab } from './modules/createNewTab';
 import { performanceLimiter } from './services/PerformanceLimiter';
 import { UserScriptService } from './services/UserScriptService';
 
+// IMPORTANT : runtime = require (pour éviter les délires ESM)
+const electron = require('electron') as typeof import('electron');
+
 const {
   app,
   BrowserWindow,
@@ -27,11 +34,11 @@ const {
   shell
 } = electron;
 
-let mainWindow: BrowserWindow | null = null;
+let mainWindow: ElectronBrowserWindow | null = null;
 let mainSession: Session;
 let config: ConfigSchema;
 let currentTabs: SessionTab[] = [];
-const tabViews = new Map<string, BrowserView>();
+const tabViews = new Map<string, ElectronBrowserView>();
 let splitMode: { left: string; right: string } | null = null;
 
 const store = new Store<BrowserSessionState>({
@@ -69,7 +76,7 @@ function setupConfig(): void {
   app.commandLine.appendSwitch('disable-background-timer-throttling');
 }
 
-function createMainWindow(): BrowserWindow {
+function createMainWindow(): ElectronBrowserWindow {
   const preloadPath = path.resolve(__dirname, '../preload/index.js');
   const window = new BrowserWindow({
     width: 1500,
@@ -86,7 +93,7 @@ function createMainWindow(): BrowserWindow {
       sandbox: false,
       webviewTag: true
     }
-  });
+  }) as ElectronBrowserWindow;
 
   window.on('ready-to-show', () => {
     window.show();
@@ -106,7 +113,7 @@ function createMainWindow(): BrowserWindow {
 async function createWindow(): Promise<void> {
   setupConfig();
   mainWindow = createMainWindow();
-  mainSession = session.fromPartition('persist:pate-graphique');
+  mainSession = session.fromPartition('persist:pate-graphique') as Session;
 
   await adBlockService.enable(mainSession, config);
   await vpnService.configure(config.vpn);
@@ -217,7 +224,7 @@ function registerIpcHandlers(): void {
         nodeIntegration: false,
         contextIsolation: true
       }
-    });
+    }) as ElectronBrowserWindow;
     popup.on('close', () => {
       const wc = view.webContents;
       if (!wc.isDestroyed()) {
@@ -337,7 +344,7 @@ function broadcastMods(): void {
   mainWindow?.webContents.send('mods:update', modsService.getActiveMods());
 }
 
-function ensureView(tab: SessionTab): BrowserView {
+function ensureView(tab: SessionTab): ElectronBrowserView {
   let view = tabViews.get(tab.id);
   if (!view) {
     view = new BrowserView({
@@ -347,7 +354,7 @@ function ensureView(tab: SessionTab): BrowserView {
         preload: path.resolve(__dirname, '../preload/browserView.js'),
         partition: 'persist:pate-graphique'
       }
-    });
+    }) as ElectronBrowserView;
     view.webContents.loadURL(tab.url);
     tab.webContentsId = view.webContents.id;
     tabViews.set(tab.id, view);

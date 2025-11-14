@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "dev": "concurrently -k \"npm:dev:main\" \"npm:dev:renderer\"",
-    "dev:main": "cross-env NODE_ENV=development ts-node --project tsconfig.main.json src/main/main.ts",
+    "dev:main": "cross-env NODE_ENV=development node -r ts-node/register/transpile-only ./src/main/main.ts",
     "dev:renderer": "cross-env NODE_ENV=development vite --config vite.config.mts",
     "build": "npm run build:renderer && npm run build:main",
     "build:main": "tsc -p tsconfig.main.json && tsc -p tsconfig.preload.json",

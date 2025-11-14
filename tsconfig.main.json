@@ -8,7 +8,8 @@
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "types": ["node", "electron"]
+    "types": ["node", "electron"],
+    "strict": true
   },
   "include": ["src/main", "src/common"],
   "exclude": ["node_modules"]
