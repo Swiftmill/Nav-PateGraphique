@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "CommonJS",
+    "outDir": "dist/preload",
+    "rootDir": "src/preload",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "types": ["node", "electron"],
+    "resolveJsonModule": true
+  },
+  "include": ["src/preload/**/*"]
+}
