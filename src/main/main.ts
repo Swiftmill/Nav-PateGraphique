@@ -7,8 +7,7 @@ import type {
 
 import Store from 'electron-store';
 import { autoUpdater } from 'electron-updater';
-import { loadConfig } from '../common/config';
-import { BrowserSessionState, ConfigSchema, SessionTab } from '../common/types';
+import type { BrowserSessionState, ConfigSchema, SessionTab } from '../common/types';
 import { AdBlockService } from './services/AdBlockService';
 import { VPNService } from './services/VPNService';
 import { PasswordVault } from './services/PasswordVault';
@@ -20,8 +19,10 @@ import { createNewTab } from './modules/createNewTab';
 import { performanceLimiter } from './services/PerformanceLimiter';
 import { UserScriptService } from './services/UserScriptService';
 
-// IMPORTANT : runtime = require (pour éviter les délires ESM)
+// runtime = require pour éviter les délires ESM
 const electron = require('electron') as typeof import('electron');
+const { loadConfig } =
+  require('../common/config') as typeof import('../common/config');
 
 const {
   app,
