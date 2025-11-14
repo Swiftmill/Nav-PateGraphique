@@ -1,0 +1,56 @@
+:root {
+  --pg-background: rgba(10, 10, 25, 0.75);
+  --pg-background-solid: #0b0b1f;
+  --pg-surface: rgba(20, 20, 45, 0.8);
+  --pg-border: rgba(106, 112, 255, 0.35);
+  --pg-primary: #6a70ff;
+  --pg-secondary: #00e0ff;
+  --pg-text: #f5f6ff;
+  --pg-muted: rgba(245, 246, 255, 0.65);
+  --pg-shadow: 0 24px 48px rgba(50, 80, 255, 0.35);
+  --pg-blur: 18px;
+}
+
+body {
+  background: radial-gradient(circle at top, rgba(78, 0, 255, 0.4), transparent 60%),
+    radial-gradient(circle at bottom, rgba(0, 255, 255, 0.35), transparent 60%), #070716;
+  color: var(--pg-text);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.pg-glass {
+  background: var(--pg-background);
+  backdrop-filter: blur(var(--pg-blur));
+  border: 1px solid var(--pg-border);
+  box-shadow: var(--pg-shadow);
+}
+
+button {
+  background: linear-gradient(135deg, var(--pg-primary), var(--pg-secondary));
+  color: var(--pg-text);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 16px 24px rgba(106, 112, 255, 0.35);
+}
+
+.tab-active {
+  background: rgba(106, 112, 255, 0.25);
+  border-bottom: 2px solid var(--pg-secondary);
+}
+
+.sidebar {
+  background: rgba(5, 5, 15, 0.85);
+  border-right: 1px solid rgba(106, 112, 255, 0.35);
+}
+
+.new-tab-page {
+  background: rgba(14, 14, 36, 0.85);
+  min-height: 100vh;
+  backdrop-filter: blur(calc(var(--pg-blur) + 6px));
+}

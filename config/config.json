@@ -1,0 +1,70 @@
+{
+  "general": {
+    "startPage": "app://pate-graphique/index.html",
+    "homepage": "https://www.qwant.com",
+    "defaultSearchEngine": "https://duckduckgo.com/?q=%s",
+    "hardwareAcceleration": true,
+    "maxRendererProcesses": 8,
+    "telemetry": false
+  },
+  "privacy": {
+    "adBlocker": true,
+    "trackerBlocker": true,
+    "fingerprintingProtection": true,
+    "blockSocialWidgets": false
+  },
+  "vpn": {
+    "enabled": false,
+    "autoConnect": false,
+    "servers": [
+      {
+        "name": "Paris - FR",
+        "host": "fr.pategraphique.net",
+        "port": 1080,
+        "type": "socks5"
+      },
+      {
+        "name": "Montréal - CA",
+        "host": "ca.pategraphique.net",
+        "port": 1080,
+        "type": "socks5"
+      }
+    ]
+  },
+  "themes": {
+    "activeTheme": "default",
+    "allowExternalThemes": true
+  },
+  "mods": {
+    "enabled": true,
+    "autoReload": true
+  },
+  "security": {
+    "masterPasswordPrompt": true,
+    "sessionTimeout": 900
+  },
+  "performance": {
+    "gamingMode": {
+      "limitCPU": 40,
+      "limitRAM": 2048,
+      "disableAnimations": true
+    },
+    "focusMode": {
+      "limitCPU": 20,
+      "limitRAM": 1024,
+      "suspendBackgroundTabs": true
+    }
+  },
+  "sidebar": {
+    "enabled": true,
+    "items": [
+      { "id": "history", "label": "Historique", "icon": "history" },
+      { "id": "notes", "label": "Notes", "icon": "note" },
+      { "id": "downloads", "label": "Téléchargements", "icon": "download" }
+    ]
+  },
+  "extensions": {
+    "allowChromeExtensions": true,
+    "autoload": []
+  }
+}

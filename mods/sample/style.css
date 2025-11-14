@@ -1,0 +1,7 @@
+.pg-mod-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(106, 112, 255, 0.35), rgba(0, 224, 255, 0.25));
+  color: #0b0b1f;
+  font-weight: 600;
+}

@@ -1,0 +1,37 @@
+appId: com.pate.graphique
+productName: "Pâte Graphique"
+asar: true
+files:
+  - dist/main/**/*
+  - dist/renderer/**/*
+  - config/**/*
+  - themes/**/*
+  - mods/**/*
+  - user-scripts/**/*
+  - package.json
+extraMetadata:
+  main: dist/main/main.js
+win:
+  target:
+    - portable
+    - nsis
+  artifactName: "Pâte Graphique-${version}-${arch}.exe"
+nsis:
+  oneClick: false
+  perMachine: true
+  allowElevation: true
+mac:
+  category: public.app-category.productivity
+linux:
+  category: Utility
+  target:
+    - AppImage
+    - deb
+  desktop:
+    Name: "Pâte Graphique"
+    Comment: "Navigateur personnalisable Pâte Graphique"
+extraResources:
+  - from: vpn
+    to: vpn
+  - from: profiles
+    to: profiles
