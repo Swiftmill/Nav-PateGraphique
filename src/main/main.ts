@@ -1,5 +1,6 @@
 import path from 'path';
-import { app, BrowserWindow, ipcMain, dialog, session, nativeTheme, BrowserView, shell } from 'electron';
+import electron from 'electron';
+import type { Session } from 'electron';
 import Store from 'electron-store';
 import { autoUpdater } from 'electron-updater';
 import { loadConfig } from '../common/config';
@@ -15,8 +16,19 @@ import { createNewTab } from './modules/createNewTab';
 import { performanceLimiter } from './services/PerformanceLimiter';
 import { UserScriptService } from './services/UserScriptService';
 
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  dialog,
+  session,
+  nativeTheme,
+  BrowserView,
+  shell
+} = electron;
+
 let mainWindow: BrowserWindow | null = null;
-let mainSession: session.Session;
+let mainSession: Session;
 let config: ConfigSchema;
 let currentTabs: SessionTab[] = [];
 const tabViews = new Map<string, BrowserView>();
@@ -163,7 +175,10 @@ function registerIpcHandlers(): void {
       const existingView = tabViews.get(removed.id);
       if (existingView && mainWindow) {
         mainWindow.removeBrowserView(existingView);
-        existingView.webContents.destroy();
+        const wc = existingView.webContents;
+        if (!wc.isDestroyed()) {
+          (wc as any).destroy?.();
+        }
       }
       tabViews.delete(removed.id);
     }
@@ -204,7 +219,10 @@ function registerIpcHandlers(): void {
       }
     });
     popup.on('close', () => {
-      view.webContents.destroy();
+      const wc = view.webContents;
+      if (!wc.isDestroyed()) {
+        (wc as any).destroy?.();
+      }
     });
     popup.setBrowserView(view);
     const [width, height] = popup.getContentSize();
@@ -371,7 +389,12 @@ function renderViews(): void {
     const usableHeight = bounds.height - topOffset;
     const halfWidth = Math.floor(bounds.width / 2);
     leftView.setBounds({ x: 0, y: topOffset, width: halfWidth, height: usableHeight });
-    rightView.setBounds({ x: halfWidth, y: topOffset, width: bounds.width - halfWidth, height: usableHeight });
+    rightView.setBounds({
+      x: halfWidth,
+      y: topOffset,
+      width: bounds.width - halfWidth,
+      height: usableHeight
+    });
     leftView.setAutoResize({ width: false, height: true });
     rightView.setAutoResize({ width: false, height: true });
     return;
@@ -402,4 +425,3 @@ app.on('activate', () => {
     void createWindow();
   }
 });
-
